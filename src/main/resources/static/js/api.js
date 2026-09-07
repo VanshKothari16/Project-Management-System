@@ -15,7 +15,7 @@
    If the backend has not been patched yet, these specific calls will fail.
    ===================================================================== */
 
-const BASE_URL = "https://project-management-system-mljl.onrender.com/";
+const BASE_URL = "https://project-management-system-mljl.onrender.com";
 
 const Auth = {
   saveToken(token) { localStorage.setItem("tm_token", token); },

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Manager Dashboard · TaskLedger</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Task<span>Ledger</span></div>
+    <div class="role-pill">MANAGER</div>
+    <button class="nav-item active" data-tab="board">🗂️ Task board</button>
+    <button class="nav-item" data-tab="profile">👤 Profile</button>
+    <div class="sidebar-bottom">
+      <div class="sidebar-user" id="sidebarUser">—</div>
+      <button class="logout-btn" onclick="logout()">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ============ BOARD TAB ============ -->
+    <section id="tab-board">
+      <div class="page-header">
+        <div>
+          <div class="eyebrow" id="project_name">Your project</div>
+          <h1>Task board</h1>
+        </div>
+      </div>
+
+      <div class="board">
+        <div class="board-col col-todo">
+          <div class="board-col-head"><h3>To-Do</h3><span class="count" id="count-todo">0</span></div>
+          <div class="board-col-body" id="col-todo"><div class="empty-note">Loading…</div></div>
+        </div>
+        <div class="board-col col-inprogress">
+          <div class="board-col-head"><h3>In Progress</h3><span class="count" id="count-inprogress">0</span></div>
+          <div class="board-col-body" id="col-inprogress"><div class="empty-note">Loading…</div></div>
+        </div>
+        <div class="board-col col-completed">
+          <div class="board-col-head"><h3>Completed</h3><span class="count" id="count-completed">0</span></div>
+          <div class="board-col-body" id="col-completed"><div class="empty-note">Loading…</div></div>
+        </div>
+        <div class="board-col col-overdue">
+          <div class="board-col-head"><h3>Overdue</h3><span class="count" id="count-overdue">0</span></div>
+          <div class="board-col-body" id="col-overdue"><div class="empty-note">Loading…</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROFILE TAB ============ -->
+    <section id="tab-profile" style="display:none;">
+      <div class="page-header">
+        <div>
+          <div class="eyebrow">Your account</div>
+          <h1>Profile</h1>
+        </div>
+      </div>
+      <div class="alert alert-error" id="profileError"></div>
+      <div class="alert alert-success" id="profileSuccess"></div>
+      <form id="profileForm" style="max-width:480px;">
+        <div class="field">
+          <label>Email (cannot be changed)</label>
+          <input type="email" id="pr_email" disabled />
+        </div>
+        <div class="field">
+          <label for="pr_name">Full name</label>
+          <input type="text" id="pr_name" required />
+        </div>
+        <div class="field">
+          <label for="pr_phone">Phone number</label>
+          <input type="text" id="pr_phone" maxlength="10" minlength="10" pattern="[0-9]{10}" required />
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="pr_qualification">Qualification</label>
+            <input type="text" id="pr_qualification" required />
+          </div>
+          <div class="field">
+            <label for="pr_specialization">Specialization</label>
+            <input type="text" id="pr_specialization" required />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="profileSaveBtn">Save changes</button>
+      </form>
+    </section>
+  </main>
+</div>
+
+<button class="fab" id="addTaskFab" title="Add task">+</button>
+
+<!-- ============ Add / Edit Task Modal ============ -->
+<div class="modal-backdrop" id="taskModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="taskModalTitle">New task</h2>
+      <button class="modal-close" onclick="closeTaskModal()">✕</button>
+    </div>
+    <div class="alert alert-error" id="taskError"></div>
+    <form id="taskForm">
+      <input type="hidden" id="t_id" />
+      <div class="field">
+        <label for="t_title">Title</label>
+        <input type="text" id="t_title" required />
+      </div>
+      <div class="field">
+        <label for="t_description">Description</label>
+        <textarea id="t_description" required></textarea>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label for="t_dueDate">Due date</label>
+          <input type="date" id="t_dueDate" required />
+        </div>
+        <div class="field">
+          <label for="t_priority">Priority</label>
+          <select id="t_priority" required>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM" selected>Medium</option>
+            <option value="HIGH">High</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" onclick="closeTaskModal()">Cancel</button>
+        <button type="submit" class="btn btn-amber" id="taskSaveBtn">Save task</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ Task Detail Modal ============ -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="detailTitle">Task</h2>
+        <div class="modal-subtitle" id="detailSubtitle">Task details</div>
+      </div>
+      <button class="modal-close" onclick="closeDetailModal()">✕</button>
+    </div>
+
+    <div class="modal-body-pad">
+
+      <div class="detail-section">
+        <div class="section-title">Description</div>
+        <p class="detail-description" id="detailDescription"></p>
+      </div>
+
+      <div class="detail-section">
+        <div class="section-title">Details</div>
+        <div class="detail-meta-row" id="detailMetaRow"></div>
+      </div>
+
+      <div class="detail-section">
+        <div class="section-title">Activity log <span id="commitCountTag" style="font-weight:500; text-transform:none; letter-spacing:0;"></span></div>
+        <div class="commit-timeline" id="commitTimeline"><div class="empty-note">Loading…</div></div>
+      </div>
+
+      <div class="detail-section" id="assignSection">
+        <div class="section-title">Assign to employee</div>
+        <div class="assign-box">
+          <select id="assignEmailSelect"><option value="">Loading employees…</option></select>
+          <button class="btn btn-ghost btn-sm" id="assignBtn">Assign</button>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="deleteTaskBtn">Delete</button>
+        <button class="btn btn-ghost" id="editTaskBtn">Edit</button>
+        <button class="btn btn-amber" id="completeTaskBtn">Mark Completed</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/manager.js"></script>
+</body>
+</html>

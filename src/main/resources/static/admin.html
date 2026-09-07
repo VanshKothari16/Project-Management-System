@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Dashboard · TaskLedger</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Task<span>Ledger</span></div>
+    <div class="role-pill">ADMIN</div>
+    <button class="nav-item active">📁 Projects</button>
+    <div class="sidebar-bottom">
+      <div class="sidebar-user" id="sidebarUser">—</div>
+      <button class="logout-btn" onclick="logout()">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <div class="eyebrow">Company overview</div>
+        <h1>Projects</h1>
+      </div>
+    </div>
+
+    <div id="listWrap">
+      <div class="spinner-line">Loading projects…</div>
+    </div>
+  </main>
+</div>
+
+<button class="fab" id="addProjectFab" title="Add project">+</button>
+
+<!-- ============ Add / Edit Project Modal ============ -->
+<div class="modal-backdrop" id="projectModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="projectModalTitle">New project</h2>
+      <button class="modal-close" onclick="closeProjectModal()">✕</button>
+    </div>
+    <div class="alert alert-error" id="projectError"></div>
+    <form id="projectForm">
+      <input type="hidden" id="p_id" />
+      <div class="field">
+        <label for="p_name">Project name</label>
+        <input type="text" id="p_name" required />
+      </div>
+      <div class="field">
+        <label for="p_description">Description</label>
+        <textarea id="p_description" required></textarea>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label for="p_deadline">Deadline</label>
+          <input type="date" id="p_deadline" required />
+        </div>
+        <div class="field">
+          <label for="p_manager">Manager's Employee ID</label>
+          <input type="text" id="p_manager" placeholder="Employee ID to appoint as Manager" required />
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" onclick="closeProjectModal()">Cancel</button>
+        <button type="submit" class="btn btn-amber" id="projectSaveBtn">Save project</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ Project Detail Modal ============ -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="detailTitle">Project</h2>
+        <div class="modal-subtitle" id="detailSubtitle">Project details</div>
+      </div>
+      <button class="modal-close" onclick="closeDetailModal()">✕</button>
+    </div>
+
+    <div class="modal-body-pad">
+
+      <div class="detail-section">
+        <div class="section-title">Description</div>
+        <p class="detail-description" id="detailDescription"></p>
+      </div>
+
+      <div class="detail-section">
+        <div class="section-title">Overview</div>
+        <div class="detail-meta-row" id="detailMetaRow"></div>
+      </div>
+
+      <div class="detail-section">
+        <div class="section-title">Team &amp; Task Snapshot <span style="font-weight:500; text-transform:none; letter-spacing:0;">(click any number)</span></div>
+        <div id="dashboardWrap"><div class="spinner-line">Loading stats…</div></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="deleteProjectBtn">Delete project</button>
+        <button class="btn btn-ghost" id="editProjectBtn">Edit</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ Drill-down List Modal (tasks OR people) ============ -->
+<div class="modal-backdrop layer-2" id="drillListModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="drillListTitle">List</h2>
+        <div class="modal-subtitle" id="drillListSubtitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeDrillListModal()">✕</button>
+    </div>
+    <div class="modal-body-pad">
+      <div id="drillListBody"><div class="spinner-line">Loading…</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Read-only Task View Modal (Admin) ============ -->
+<div class="modal-backdrop layer-3" id="taskViewModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="taskViewTitle">Task</h2>
+        <div class="modal-subtitle" id="taskViewSubtitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeTaskViewModal()">✕</button>
+    </div>
+    <div class="modal-body-pad">
+      <div class="detail-section">
+        <div class="section-title">Description</div>
+        <p class="detail-description" id="taskViewDescription"></p>
+      </div>
+      <div class="detail-section">
+        <div class="section-title">Details</div>
+        <div class="detail-meta-row" id="taskViewMetaRow"></div>
+      </div>
+      <div class="detail-section">
+        <div class="section-title">Activity log <span id="taskViewCommitCount" style="font-weight:500; text-transform:none; letter-spacing:0;"></span></div>
+        <div class="commit-timeline" id="taskViewTimeline"><div class="empty-note">Loading…</div></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeTaskViewModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Employee View Modal (Admin) ============ -->
+<div class="modal-backdrop layer-3" id="employeeViewModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="employeeViewTitle">Employee</h2>
+        <div class="modal-subtitle">Profile</div>
+      </div>
+      <button class="modal-close" onclick="closeEmployeeViewModal()">✕</button>
+    </div>
+    <div class="modal-body-pad">
+      <div class="detail-section">
+        <div class="section-title">Details</div>
+        <div class="detail-meta-row" id="employeeViewMetaRow"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeEmployeeViewModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

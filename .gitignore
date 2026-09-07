@@ -1,0 +1,115 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Secrets & environment files (VERY IMPORTANT — never commit real secrets) ###
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+.env.local
+.env.*.local
+*.env
+application-local.properties
+application-*.local.properties
+application-secrets.properties
+application-*.secrets.properties
+**/secrets/
+**/secret/
+**/credentials/
+**/credential/
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+*.ppk
+*.secret
+*.secrets
+secrets.yml
+secrets.yaml
+secrets.json
+credentials.json
+service-account*.json
+*-credentials.json
+google-services.json
+GoogleService-Info.plist
+*.token
+*.tokens
+auth.json
+.aws/
+.azure/
+.gcloud/
+.kube/config
+
+### Additional credential / config safety ###
+*.properties.local
+local.properties
+*.local.yml
+*.local.yaml
+*.local.json
+*.local.toml
+docker-compose.override.yml
+docker-compose.*.local.yml
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.tfstate*
+crash.log
+crash.*.log
+
+### Logs ###
+*.log
+logs/
+spring.log
+
+### OS-generated junk files ###
+.DS_Store
+Thumbs.db
+desktop.ini
+
+### Node (only relevant if npm tooling is ever added to the frontend) ###
+node_modules/
+npm-debug.log*
+
+### Packaged build artifacts ###
+*.jar
+*.war
+!.mvn/wrapper/maven-wrapper.jar

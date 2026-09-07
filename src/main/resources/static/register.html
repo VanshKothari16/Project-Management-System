@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Create account · TaskLedger</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="auth-shell">
+  <div class="auth-side">
+    <div class="brand">Task<span>Ledger</span></div>
+    <div class="tagline">Set up your company as an Admin, or join an existing one as an Employee.</div>
+    <div>
+      <div class="ledger-row"><span>Admins</span><b>Create the company + first project</b></div>
+      <div class="ledger-row"><span>Employees</span><b>Join with a Company ID</b></div>
+    </div>
+  </div>
+
+  <div class="auth-main">
+    <div class="auth-card">
+      <div class="eyebrow">Get started</div>
+      <h1>Create your account</h1>
+      <div class="sub">Choose how you're joining TaskLedger.</div>
+
+      <div class="toggle-tabs">
+        <button type="button" id="tabEmployee" class="active">Join as Employee</button>
+        <button type="button" id="tabCompany">Register a Company</button>
+      </div>
+
+      <div class="alert alert-error" id="errorBox"></div>
+      <div class="alert alert-success" id="successBox"></div>
+
+      <!-- ============ EMPLOYEE REGISTRATION ============ -->
+      <form id="employeeForm" novalidate>
+        <div class="field">
+          <label for="e_name">Full name</label>
+          <input type="text" id="e_name" required />
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="e_email">Email</label>
+            <input type="email" id="e_email" required />
+          </div>
+          <div class="field">
+            <label for="e_phone">Phone number</label>
+            <input type="text" id="e_phone" maxlength="10" minlength="10" pattern="[0-9]{10}" placeholder="10 digits" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="e_password">Password</label>
+          <input type="password" id="e_password" minlength="8" maxlength="14" placeholder="8–14 characters" required />
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="e_qualification">Qualification</label>
+            <input type="text" id="e_qualification" placeholder="e.g. B.Tech Computer Science" required />
+          </div>
+          <div class="field">
+            <label for="e_specialization">Specialization</label>
+            <input type="text" id="e_specialization" placeholder="e.g. Frontend Development" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="e_companyCode">Company ID</label>
+          <input type="text" id="e_companyCode" placeholder="Ask your Admin for this ID" required />
+          <div class="hint">This is the unique Company ID your Admin received when they registered the company.</div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="employeeBtn">Create employee account</button>
+      </form>
+
+      <!-- ============ COMPANY (ADMIN) REGISTRATION ============ -->
+      <form id="companyForm" novalidate style="display:none;">
+        <div class="field">
+          <label for="c_name">Your full name (Admin)</label>
+          <input type="text" id="c_name" required />
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="c_email">Email</label>
+            <input type="email" id="c_email" required />
+          </div>
+          <div class="field">
+            <label for="c_phone">Phone number</label>
+            <input type="text" id="c_phone" maxlength="10" minlength="10" pattern="[0-9]{10}" placeholder="10 digits" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="c_password">Password</label>
+          <input type="password" id="c_password" minlength="8" maxlength="14" placeholder="8–14 characters" required />
+        </div>
+        <div class="field">
+          <label for="c_companyName">Company name</label>
+          <input type="text" id="c_companyName" required />
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="c_occupation">Industry / Occupation</label>
+            <input type="text" id="c_occupation" placeholder="e.g. Software Services" required />
+          </div>
+          <div class="field">
+            <label for="c_address">Address</label>
+            <input type="text" id="c_address" required />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="companyBtn">Register company &amp; become Admin</button>
+      </form>
+
+      <div class="switch-line">
+        Already have an account? <button type="button" onclick="window.location.href='index.html'">Sign in</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/register.js"></script>
+</body>
+</html>

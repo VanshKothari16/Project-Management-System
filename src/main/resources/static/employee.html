@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Tasks · TaskLedger</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">Task<span>Ledger</span></div>
+    <div class="role-pill">EMPLOYEE</div>
+    <button class="nav-item active" data-tab="board">🗂️ My tasks</button>
+    <button class="nav-item" data-tab="profile">👤 Profile</button>
+    <div class="sidebar-bottom">
+      <div class="sidebar-user" id="sidebarUser">—</div>
+      <button class="logout-btn" onclick="logout()">Sign out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ============ BOARD TAB ============ -->
+    <section id="tab-board">
+      <div class="page-header">
+        <div>
+          <div class="eyebrow">Assigned to you</div>
+          <h1>My tasks</h1>
+        </div>
+      </div>
+
+      <div class="board" style="grid-template-columns: repeat(3,1fr);">
+        <div class="board-col col-todo">
+          <div class="board-col-head"><h3>To-Do</h3><span class="count" id="count-todo">0</span></div>
+          <div class="board-col-body" id="col-todo"><div class="empty-note">Loading…</div></div>
+        </div>
+        <div class="board-col col-inprogress">
+          <div class="board-col-head"><h3>In Progress</h3><span class="count" id="count-inprogress">0</span></div>
+          <div class="board-col-body" id="col-inprogress"><div class="empty-note">Loading…</div></div>
+        </div>
+        <div class="board-col col-completed">
+          <div class="board-col-head"><h3>Completed</h3><span class="count" id="count-completed">0</span></div>
+          <div class="board-col-body" id="col-completed"><div class="empty-note">Loading…</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROFILE TAB ============ -->
+    <section id="tab-profile" style="display:none;">
+      <div class="page-header">
+        <div>
+          <div class="eyebrow">Your account</div>
+          <h1>Profile</h1>
+        </div>
+      </div>
+      <div class="alert alert-error" id="profileError"></div>
+      <div class="alert alert-success" id="profileSuccess"></div>
+      <form id="profileForm" style="max-width:480px;">
+        <div class="field">
+          <label>Email (cannot be changed)</label>
+          <input type="email" id="pr_email" disabled />
+        </div>
+        <div class="field">
+          <label for="pr_name">Full name</label>
+          <input type="text" id="pr_name" required />
+        </div>
+        <div class="field">
+          <label for="pr_phone">Phone number</label>
+          <input type="text" id="pr_phone" maxlength="10" minlength="10" pattern="[0-9]{10}" required />
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="pr_qualification">Qualification</label>
+            <input type="text" id="pr_qualification" required />
+          </div>
+          <div class="field">
+            <label for="pr_specialization">Specialization</label>
+            <input type="text" id="pr_specialization" required />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="profileSaveBtn">Save changes</button>
+      </form>
+    </section>
+  </main>
+</div>
+
+<!-- ============ Task Detail Modal ============ -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="detailTitle">Task</h2>
+        <div class="modal-subtitle" id="detailSubtitle">Task details</div>
+      </div>
+      <button class="modal-close" onclick="closeDetailModal()">✕</button>
+    </div>
+
+    <div class="modal-body-pad">
+
+      <div class="detail-section">
+        <div class="section-title">Description</div>
+        <p class="detail-description" id="detailDescription"></p>
+      </div>
+
+      <div class="detail-section">
+        <div class="section-title">Details</div>
+        <div class="detail-meta-row" id="detailMetaRow"></div>
+      </div>
+
+      <div class="detail-section">
+        <div class="section-title">Activity log <span id="commitCountTag" style="font-weight:500; text-transform:none; letter-spacing:0;"></span></div>
+        <div class="commit-timeline" id="commitTimeline"><div class="empty-note">Loading…</div></div>
+      </div>
+
+      <div class="detail-section" id="commitFormWrap">
+        <div class="section-title">Add a commitment</div>
+        <div class="field" style="margin-bottom:10px;">
+          <textarea id="commitText" placeholder="e.g. Finished the login page today"></textarea>
+        </div>
+        <button class="btn btn-amber" id="addCommitBtn">Add commitment</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/employee.js"></script>
+</body>
+</html>
